@@ -51,19 +51,17 @@ jobs:
           script: |
             echo "==== 🚀 Triển khai backend lên VPS ===="
             docker pull ${{ secrets.DOCKER_USERNAME }}/fwfe-backend:latest
-
-            # Dừng container cũ nếu đang chạy
+            
             docker stop fwfe-backend || true
             docker rm fwfe-backend || true
-
-            # Chạy container mới
+            
             docker run -d \
               --name fwfe-backend \
               -p 8080:8080 \
-              -e SPRING_DATASOURCE_URL=${{ secrets.DB_URL }} \
-              -e SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }} \
-              -e SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }} \
-              -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+              -e SPRING_DATASOURCE_URL="${{ secrets.DB_URL }}" \
+              -e SPRING_DATASOURCE_USERNAME="${{ secrets.DB_USERNAME }}" \
+              -e SPRING_DATASOURCE_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+              -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
               ${{ secrets.DOCKER_USERNAME }}/fwfe-backend:latest
-
-            echo "✅ Deploy thành công! Ứng dụng đang chạy trên cổng 8080."
+            
+              echo "✅ Deploy thành công!"
