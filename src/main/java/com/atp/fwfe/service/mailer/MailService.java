@@ -80,7 +80,8 @@ public class MailService {
     }
 
     // ---------- Gửi email HTML chung ----------
-    private void sendHtml(String to, String subject, String html) {
+    @Async
+    public void sendHtml(String to, String subject, String html) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
