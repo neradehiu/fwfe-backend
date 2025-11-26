@@ -5,11 +5,8 @@ import com.atp.fwfe.model.work.WorkPosted;
 import com.atp.fwfe.service.account.AccService;
 import com.atp.fwfe.service.mailer.MailService;
 import com.atp.fwfe.service.work.WorkPostedService;
-import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +41,7 @@ public class CronJobService {
                     mailService.sendNewJobNotification(email, newJobs);
                     sentCount++;
                     log.info("📧 Đã gửi cho: {}", email);
-                } catch (MessagingException e){
+                } catch (Exception e){ // dùng Exception chung
                     log.error("❌ Gửi lỗi tới {}: {}", email, e.getMessage());
                 }
             } else {
@@ -72,7 +69,7 @@ public class CronJobService {
                 try {
                     mailService.sendWeeklyThanks(email, name);
                     sent++;
-                } catch (MessagingException e) {
+                } catch (Exception e){ // dùng Exception chung
                     log.error("❌ Gửi lỗi tới {}: {}", email, e.getMessage());
                 }
             }
